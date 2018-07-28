@@ -79,5 +79,5 @@ theme: hexo-theme-aircloud
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type: git
-  repo: git@github.com:SummerBuger/mblog.git
+  repo: git@github.com:SummerBuger/mblog-source.git
   branch: master
