@@ -79,5 +79,5 @@ theme: hexo-theme-aircloud
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
   type:git
-  repo:https://github.com/LiamAds/icebug.github.io.git
+  repo:https://github.com/SummerBuger/mblog.git
   branch:master
