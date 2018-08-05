@@ -1,0 +1,38 @@
+golang 环境变量	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^# golang 环境变量$/;"	function	line:10
+通用环境变量(General-purpose environment variables)	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^## 通用环境变量(General-purpose environment variables)$/;"	function	line:14
+GCCGO	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GCCGO$/;"	function	line:16
+GOARCH	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOARCH$/;"	function	line:22
+GOBIN	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOBIN$/;"	function	line:25
+GOOS	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOOS$/;"	function	line:29
+GOPATH	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOPATH$/;"	function	line:32
+GORACE	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GORACE$/;"	function	line:65
+GOROOT	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOROOT$/;"	function	line:69
+GOTMPDIR	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOTMPDIR$/;"	function	line:72
+GOCACHE	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOCACHE$/;"	function	line:76
+cgo 相关环境变量	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^## cgo 相关环境变量$/;"	function	line:79
+CC	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CC$/;"	function	line:81
+CGO_ENABLED	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_ENABLED$/;"	function	line:84
+CGO_CFLAGS	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_CFLAGS$/;"	function	line:87
+CGO_CFLAGS_ALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_CFLAGS_ALLOW$/;"	function	line:90
+CGO_CFLAGS_DISALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_CFLAGS_DISALLOW$/;"	function	line:93
+CGO_CPPFLAGS, CGO_CPPFLAGS_ALLOW, CGO_CPPFLAGS_DISALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_CPPFLAGS, CGO_CPPFLAGS_ALLOW, CGO_CPPFLAGS_DISALLOW$/;"	function	line:97
+CGO_CXXFLAGS, CGO_CXXFLAGS_ALLOW, CGO_CXXFLAGS_DISALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_CXXFLAGS, CGO_CXXFLAGS_ALLOW, CGO_CXXFLAGS_DISALLOW$/;"	function	line:100
+CGO_FFLAGS, CGO_FFLAGS_ALLOW, CGO_FFLAGS_DISALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_FFLAGS, CGO_FFLAGS_ALLOW, CGO_FFLAGS_DISALLOW$/;"	function	line:103
+CGO_LDFLAGS, CGO_LDFLAGS_ALLOW, CGO_LDFLAGS_DISALLOW	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CGO_LDFLAGS, CGO_LDFLAGS_ALLOW, CGO_LDFLAGS_DISALLOW$/;"	function	line:106
+CXX	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### CXX$/;"	function	line:109
+PKG_CONFIG	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### PKG_CONFIG$/;"	function	line:112
+架构相关的特殊目的的环境变量	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^## 架构相关的特殊目的的环境变量$/;"	function	line:115
+GOARM	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOARM$/;"	function	line:117
+GO386	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GO386$/;"	function	line:120
+GOMIPS	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOMIPS$/;"	function	line:123
+特殊目的的环境变量	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^## 特殊目的的环境变量$/;"	function	line:126
+GOROOT_FINAL	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GOROOT_FINAL$/;"	function	line:128
+GIT_ALLOW_PROTOCOL	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GIT_ALLOW_PROTOCOL$/;"	function	line:131
+GO_EXTLINK_ENABLED	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### GO_EXTLINK_ENABLED$/;"	function	line:135
+go 提供的脚本工具	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^# go 提供的脚本工具$/;"	function	line:142
+gofmt	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^# gofmt$/;"	function	line:144
+go install	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### go install$/;"	function	line:158
+go get	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### go get$/;"	function	line:160
+go build	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### go build$/;"	function	line:162
+交叉编译 (cross compile)	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^#### 交叉编译 (cross compile)$/;"	function	line:164
+gdb	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### gdb$/;"	function	line:195
