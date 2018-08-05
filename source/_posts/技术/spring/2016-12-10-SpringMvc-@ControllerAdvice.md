@@ -1,10 +1,10 @@
 ---
 layout: post
 title: SpringMVC 中的 @ControllerAdvice
-category: 技术
-tags: Spring
-keywords: SpringMVC
-description:
+categories: Spring
+tags: [Spring, Spring MVC]
+date: 2016-12-10 21:00:00
+description: \@ControllerAdvice 注解到底有什么用？
 ---
 
 ### SpringMVC 中的 @ControllerAdvice

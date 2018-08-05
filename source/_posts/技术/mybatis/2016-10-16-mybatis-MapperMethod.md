@@ -1,10 +1,10 @@
 ---
 layout: post
 title: mybatis 中的 MapperMethod
-category: 技术
-tags: mybatis
-keywords: mybatis
-description: mybatis 源码阅读系列
+categories: MyBatis
+tags: [MyBatis, Java]
+date: 2016-10-16 21:00:00
+description: org.apache.ibatis.binding.MapperMethod
 ---
 
 mybatis 中的 `MapperMethod` 源码阅读

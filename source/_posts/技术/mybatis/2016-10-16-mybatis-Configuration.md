@@ -1,10 +1,10 @@
 ---
 layout: post
 title: mybatis 中的 Configuration
-category: 技术
-tags: mybatis
-keywords: mybatis
-description: mybatis 源码阅读系列
+categories: MyBatis
+tags: [MyBatis, Java]
+date: 2016-10-16 21:00:00
+description: org.apache.ibatis.sessio.Configuration
 ---
 
 ```java

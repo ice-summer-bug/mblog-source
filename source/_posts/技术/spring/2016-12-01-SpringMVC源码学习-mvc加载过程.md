@@ -1,10 +1,10 @@
 ---
 layout: post
 title: SpringMVC源码学习 —— MVC 配置加载过程
-category: 技术
-tags: Spring
-keywords: SpringMVC
-description:
+categories: Spring
+tags: [Spring, Spring MVC]
+date: 2016-12-01 21:00:00
+description: 《Spring揭秘》学习系列，MVC 加载过程
 ---
 
 ### SpringMVC 配置加载过程

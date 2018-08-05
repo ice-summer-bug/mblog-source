@@ -1,10 +1,10 @@
 ---
 layout: post
 title: kafka 中的偏移量
-category: 技术
-tags: kafka
-keywords: kafka offset
-description: kafka 中的偏移量
+categories: kafka
+tags: [kafka,Tools]
+date: 2017-12-10 21:00:00
+description: kafka 简介和偏移量说明
 ---
 
 # kafka 中的偏移量

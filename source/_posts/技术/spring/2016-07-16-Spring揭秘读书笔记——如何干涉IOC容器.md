@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Spring揭秘读书笔记 —— 如何干涉IOC容器
-category: 技术
-tags: Spring
-keywords: Spring揭秘
-description: 干涉 Spring Ioc 的 IOC 容器启动流程和 Bean 加载流程
+categories: Spring
+tags: [Spring,《Spring揭秘》]
+date: 2016-07-16 21:00:00
+description: 《Spring揭秘》学习系列，IOC 如期提供的干涉方式
 ---
 
 ### 前言

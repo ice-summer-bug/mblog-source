@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Spring Boot 初涉
-category: 技术
-tags: Spring-Boot
-keywords: SpringBoot
-description:
+categories: Spring
+tags: [Spring, Spring Boot]
+date: 2017-02-12 21:00:00
+description: Spring Boot 入门
 ---
 
 #### 使用 `Maven` 构建 Spring-Boot 项目

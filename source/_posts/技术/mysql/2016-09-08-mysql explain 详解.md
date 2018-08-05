@@ -1,10 +1,10 @@
 ---
 layout: post
 title: mysql explain 介绍
-category: 技术
+categories: mysql
 tags: mysql
-keywords: mysql explain 介绍
-description: mysql explain 介绍
+date: 2016-09-08 21:00:00
+description: mysql explain 参数说明
 ---
 
 mysql 为我们提供了一个很好用的 sql 语句分析工具 `explain` , 它可以帮助我们选择更好的索引和写出更优化的查询语句。

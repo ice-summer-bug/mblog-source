@@ -1,10 +1,10 @@
 ---
 layout: post
 title: Spring揭秘读书笔记 —— IOC BeanFactory
-category: 技术
-tags: Spring
-keywords: Spring揭秘
-description:
+categories: Spring
+tags: [Spring,《Spring揭秘》]
+date: 2016-07-15 21:00:00
+description: 《Spring揭秘》学习系列，BeanFactory 浅谈
 ---
 
 ### BeanFactory

@@ -1,10 +1,10 @@
 ---
 layout: post
 title: SpringMVC 容器 和 Spring 容器
-category: 技术
-tags: Spring
-keywords: SpringMVC
-description:
+categories: Spring
+tags: [Spring, Spring MVC]
+date: 2017-01-21 21:00:00
+description: Spring 两个容器之间的关系
 ---
 
 ##### 前言
