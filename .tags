@@ -36,3 +36,19 @@ go get	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环
 go build	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### go build$/;"	function	line:162
 交叉编译 (cross compile)	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^#### 交叉编译 (cross compile)$/;"	function	line:164
 gdb	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang环境变量和脚本工具.md	/^### gdb$/;"	function	line:195
+golang GC 浅谈	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/2018-05-16-golang-GC.md	/^### golang GC 浅谈$/;"	function	line:10
+问：与传统广告购买相比，程序化广告有什么优势？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：与传统广告购买相比，程序化广告有什么优势？$/;"	function	line:10
+问：开发和运营需方平台有什么门槛？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：开发和运营需方平台有什么门槛？$/;"	function	line:18
+问：QPS 是什么意思？流量、竞价请求、QPS 三者之间是什么关系？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：QPS 是什么意思？流量、竞价请求、QPS 三者之间是什么关系？$/;"	function	line:36
+问：如何选择需求方平台，有哪些评估指标？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：如何选择需求方平台，有哪些评估指标？$/;"	function	line:45
+问：开发和运营广告交易平台有什么门槛？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：开发和运营广告交易平台有什么门槛？$/;"	function	line:51
+问：程序化广告常用的第三方技术服务有哪些？提供这些服务的公司有哪些？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：程序化广告常用的第三方技术服务有哪些？提供这些服务的公司有哪些？$/;"	function	line:60
+问：品牌广告如何考核投放效果？	/Users/liam/myblog/icebug.github.io/source/_posts/计算广告/程序化广告-个性化精准投放实用手册-常见问题导读.md	/^#### 问：品牌广告如何考核投放效果？$/;"	function	line:69
+前言	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^## 前言$/;"	function	line:11
+How do I know whether a variable is allocated on the heap or the stack?	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^### How do I know whether a variable is allocated on the heap or the stack?$/;"	function	line:15
+我们如何知道变量是分配在堆上还是栈上？	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^### 我们如何知道变量是分配在堆上还是栈上？$/;"	function	line:26
+逃逸分析	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^## 逃逸分析$/;"	function	line:38
+golang 逃逸分析示例	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^### golang 逃逸分析示例$/;"	function	line:46
+内存分配	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^## 内存分配$/;"	function	line:92
+`TCMalloc(Thread-caching Malloc)`	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^### `TCMalloc(Thread-caching Malloc)`$/;"	function	line:101
+小对象内存分配（Small Object Allocation）	/Users/liam/myblog/icebug.github.io/source/_posts/技术/golang/golang 内存管理浅析.md	/^### 小对象内存分配（Small Object Allocation）$/;"	function	line:105
