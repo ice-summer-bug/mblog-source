@@ -62,7 +62,59 @@ mogadm domain delete domain1 # 删除 domain
 mogadm domain list # 列出所有 domain
 ```
 
-#### 文件上传
+#### `mogadm host`
+
+`mogilefs` 集群 `host` 管理
+
+```bash
+# 新增 host
+mogadm --trackers=127.0.0.1:7001 host add host1 --ip=[$ip] --port=7500 --status=alive 
+mogadm host delete host1 # 删除 host, 不指定tracker 的时候默认使用本机 `127.0.0.1:7001`
+mogadm host list # 列出所有 host
+```
+
+#### `mogadm device`
+
+`mogilefs` 集群 `device` 管理
+
+##### `device` 列出
+
+```bash
+mogadm device list # 列出所有 host
+```
+
+##### 新增 `device` 
+
+下面的例子中新增 `device`
+
+1. 进入 `/etc/mogilefs/mogstored.conf` 文件中配置的 `docroot`，例如 `cd /home1/mogdata`
+
+2. 如果待挂载的 `device`（ID 命名为 dev2） 所在的硬盘和 `/home1` 所在硬盘不一致(例如 `/home2`)，需要在 `/home2` 中新建目录 `/home2/mogdata/dev2`，并在 `/home1/mogdata` 中创建软链
+
+```bash
+mkdir -pv /home2/mogdata/dev2;
+cd /home1/mogdata;
+ln -s /home2/mogdata/dev2 dev2;
+mogadm --trackers=127.0.0.1:7001 device add host1 dev2
+```
+
+##### `device` 状态修改
+
+```bash
+# dev2 磁盘故障
+mogadm --trackers=127.0.0.1:7001 device mark host1 dev2 dead # 将 dev2 置为死亡，不可用
+# dev2 磁盘故障恢复，无法直接从 dead 更换到 alive，需先过渡到 down 状态
+mogadm --trackers=127.0.0.1:7001 device mark host1 dev2 down # 将 dev2 置为 down 状态
+mogadm --trackers=127.0.0.1:7001 device mark host1 dev2 alive # 将 dev2 置为 alive 状态
+```
+
+##### `device` 列表状态查询
+
+```bash
+mogadm --trackers=127.0.0.1:7001 device summary
+```
+
+### 文件上传
 
 ```bash
 mogupload --trackers="127.0.0.1:7001" --domain=[${domain}] --key=[${key}] --file=[${file}] --class=[${class}]
@@ -73,7 +125,7 @@ mogupload --trackers="127.0.0.1:7001" --domain=[${domain}] --key=[${key}] --file
 `--file`: 指定上传文件的路径
 `--class`: 指定上传文件的 `class`，可选项，默认值为 `default`
 
-#### 文件下载
+### 文件下载
 
 ```bash
 mogfetch --trackers=host --domain=[${domain}] --key=[${key}] --file=[${file}]
@@ -83,7 +135,7 @@ mogfetch --trackers=host --domain=[${domain}] --key=[${key}] --file=[${file}]
 `--key`: 指定上传文件的 `key`
 `--file`: 指定下载文件的路径及名称
 
-#### 文件查看
+### 文件查看
 
 ```bash
 mogfileinfo  --trackers="127.0.0.1:7001" --domain=[${domain}] --key=[${key}]
