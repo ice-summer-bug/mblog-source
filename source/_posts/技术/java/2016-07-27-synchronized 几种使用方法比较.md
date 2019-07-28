@@ -1,8 +1,8 @@
 ---
 layout: post
-title: synchronized 几种使用方法比较
+title: synchronized 关键字
 categories: Java
-tags: [并发, Java]
+tags: [JAVA 并发编程, Java]
 date: 2016-07-27 21:00:00
 description: java 并发基础，synchronized 关键字使用说明
 ---

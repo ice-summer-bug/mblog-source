@@ -2,7 +2,7 @@
 layout: post
 title: golang 内存管理浅析
 categories: golang
-tags: [golang, memory management, malloc]
+tags: [golang]
 date: 2018-05-16 21:00:00
 description: golang 内存管理源码阅读分析
 ---

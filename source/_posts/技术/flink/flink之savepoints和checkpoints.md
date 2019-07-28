@@ -4,7 +4,7 @@ title: Flink 探究之路 ———— 容错机制，Checkpoint 和 Savepoint
 categories: flink
 tags: flink
 date: 2019-01-26 09:00:00
-description: apache flink 的
+description: apache flink 容错机制的简单介绍
 ---
 
 # Flink 的容错机制
