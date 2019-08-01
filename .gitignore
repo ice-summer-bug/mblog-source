@@ -5,11 +5,4 @@ db.json
 node_modules/
 public/
 .deploy*/
-
-!themes/
-
-themes/*
-!themes/next
-
-themes/next/*
-!themes/next/_config.yml
+themes/
