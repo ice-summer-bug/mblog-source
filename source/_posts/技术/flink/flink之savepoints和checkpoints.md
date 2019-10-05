@@ -15,12 +15,10 @@ description: apache flink 容错机制的简单介绍
 
 当程序失败（机器、网络或者软件故障）的时候，`Flink` 将停止分布式数据流应用。然后再从最后一次成功的 `checkpoint` 中保存的 `状态`(`state`) 数据中恢复应用的所有 `算子`（`Operator`）。输入数据也被重置到最后一次成功的`快照`数据中保存的位置 。 `Flink` 保证并行数据流在重启之后处理的所有数据都不会是最近一次成功的 `checkpoint` 之前的数据。
 
-
-```txt
-注意：
-1. `checkpointing` 功能默认是关闭的，需要手动配置，指定开启 `checkpointing`
-2. 在 `Flink` 完成保证的基础上，数据流输入源 (`streaming source`)需要保障能回退到指定的最近一个位置。
-```
+    注意：
+    1. `checkpointing` 功能默认是关闭的，需要手动配置，指定开启 `checkpointing`，具体操作说明详见：[Checkpointing 说明文档](https://ci.apache.org/projects/flink/flink-docs-master/dev/stream/state/checkpointing.html)
+    2. 在 `Flink` 完成保证的基础上，数据流输入源 (`streaming source`)需要保障能回退到指定的最近一个位置。在 `Apache Kafka ` 提供这个能力的基础上，Flink 适配 Kafka 的 connector 利用这个能力实现容错机制。Flink
+	连接器(Connectors)对容错机制的支持详见：[数据输入源和输出流的容错机制](https://ci.apache.org/projects/flink/flink-docs-master/dev/connectors/guarantees.html)
 
 # `Checkpointing`
 
@@ -172,6 +170,16 @@ $ bin/flink run -s :savepointPath -n [:runArgs]
 *** rescaling 的翻译存疑，猜测是改变并行度***
 
 
+###### 译者注
+
+本人对文档的翻译过程中，对Flink 相关名词翻译如下：
+
+| 英文名词 | 译者翻译 |
+|-|-|
+| Connector| 连接器 |
+| Data Sources| 数据输入源|
+| Data Sinks | 数据输出流 |
+| rescaling | - |
 
 ###### 参考文档
 

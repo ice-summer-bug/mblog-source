@@ -4,7 +4,7 @@ title: Flink DateStream API
 categories: flink
 tags: flink
 date: 2018-11-19 22:00:00
-description: Apache Flink Datastream Api 分析
+description: Apache Flink Datastream Api 简单介绍
 ---
 
 # checkpoint

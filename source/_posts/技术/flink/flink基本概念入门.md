@@ -66,10 +66,6 @@ description: apache flink 基本概念介绍
 通过调整 `Task Slots` 的数量而调整 subtasks 之间的隔离方式。当每个 `TaskManager` 只有一个 `Task Slot` 的时候，意味着每个 `task group` 运行在独立的的JVM 中。当一个 `TaskManager` 有多个 `slot` 的时候，意味着多个 在同一 JVM 进程中的 task 将共享 TCP 链接和心跳信息，他们也能共享。
 
 
-
-
-
-
 DateStream API
 
 `source`: 数据来源
