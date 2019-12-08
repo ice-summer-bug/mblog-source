@@ -4,12 +4,12 @@ title: Flink 探究之路 ———— 容错机制，Checkpoint 和 Savepoint
 categories: flink
 tags: flink
 date: 2019-01-26 09:00:00
-description: apache flink 容错机制的简单介绍
+description: apache flink 数据流容错机制介绍文档译文
 ---
 
-# Flink 的容错机制
+# Flink 数据流容错机制译文
 
-`Flink` 最吸引使用者的地方就是它提供的容错机制保证数据流应用程序的`状态`的持续性恢复。`Flink` 保证即使在失败的情况下，数据流中的每一条数据最终也能确保只会对状态数据响应一次（`exactly once`）。`响应一次` 的机制可以手动降级到 `至少响应一次`(`at least once`)。
+`Flink` 最吸引使用者的地方就是它提供的容错机制保证可以持续性的恢复数据流应用程序的`状态`。`Flink` 保证即使在失败的情况下，数据流中的每一条数据最终也能确保只会对状态数据响应一次（`exactly once`）。`响应一次` 的机制可以手动降级到 `至少响应一次`(`at least once`)。
 
 `容错机制` 对分布式流式数据持续性的产生`快照`(`snapshot`)并存储。对于持有小型数据状态的数据流应用来说，产生 `快照` 的过程是很轻量级的，对于数据流的正常处理过程的影响微乎其微。数据流应用的 `状态` 数据可以存储到一个可配置的环境(`Master`节点中，或者 `HDFS` 中）。
 
@@ -19,7 +19,7 @@ description: apache flink 容错机制的简单介绍
     1. `checkpointing` 功能默认是关闭的，需要手动配置，指定开启 `checkpointing`，具体操作说明详见：[Checkpointing 说明文档](https://ci.apache.org/projects/flink/flink-docs-master/dev/stream/state/checkpointing.html)
     2. 在 `Flink` 完成保证的基础上，数据流输入源 (`streaming source`)需要保障能回退到指定的最近一个位置。在 `Apache Kafka ` 提供这个能力的基础上，Flink 适配 Kafka 的 connector 利用这个能力实现容错机制。Flink
 	连接器(Connectors)对容错机制的支持详见：[数据输入源和输出流的容错机制](https://ci.apache.org/projects/flink/flink-docs-master/dev/connectors/guarantees.html)
-
+	
 # `Checkpointing`
 
 `Flink` 的 `容错机制` 简而言之就是持续不断的对 `分布式数据流` 和 `算子状态(Operator state)` 产生 `一致性` 的 `快照` 数据。这些 `快照` 数据系统遇到故障时，用于从错误状态中恢复的 `检查点` (`checkpoints`)。 `Flink` 产生 `快照` 数据的机制的详细描述如下： [Lightweight Asynchronous Snapshots for Distributed Dataflows](http://arxiv.org/abs/1506.08603 "Lightweight Asynchronous Snapshots for Distributed Dataflows")，该算法是在参考 [Chandy-Lamport algorithm](http://research.microsoft.com/en-us/um/people/lamport/pubs/chandy.pdf "Chandy-Lamport algorithm") 算法的基础上进行改进的，并针对 `Flink 执行模型` 进行量身定做。
