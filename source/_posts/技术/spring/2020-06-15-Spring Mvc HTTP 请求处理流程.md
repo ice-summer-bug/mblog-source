@@ -370,20 +370,25 @@ DispatcherServlet#doDispatch ==> AbstractHandlerMethodAdapter#handle ==> Request
 
 #### 调用处理器之前的前置操作
 
-- 获取操作 `WebDataBinder` 的方法 
+- 获取操作 `WebDataBinder` 的方法
     - 获取当前处理器中 @InitBinder 修饰的方法
     - 获取 @ControllerAdvice 修饰的类中的 @InitBinder 修饰的方法
+
+
 - 集合上述操作 `WebDataBinder` 的方法生成 `WebDataBinderFactory`
 
-- 获取操作 Model 的方法 
+- 获取操作 `Model` 的方法
     - 获取当前处理器方法参数中 @SessionAttribute 修复的方法
     - 获取当前处理器中 @ModelAttribute 修饰的方法
     - 获取 @ControllerAdvice 修饰的类中的 @ModelAttribute 修饰的方法
+
+
 - 集合上述操作 Model 的方法生成 `ModelFactory`
 - 封装 ServletInvocableHandlerMethod， 设置参数解析器、返回数据处理器、参数名称发现器
 - 初始化 Model，在 session 中找到 @SessionAtrribute 修饰的方法参数提取出来合并放入 Model 中
 - 调用 ModelFactory 中 @ModelAttribute 修饰的方法，提取出这些参数属性，放入 Model 中
 - 最终调用处理器 ServletInvocableHandlerMethod#invokeAndHandle
+
 
                 在这些前置操作中，出现了 MVC 组件 WebDataBinder
                 WebDataBinder 支持如下功能
@@ -412,3 +417,7 @@ DispatcherServlet#doDispatch ==> AbstractHandlerMethodAdapter#handle ==> Request
 `HttpMethodReturnValueHandler`
 `HttpMessageConverter`
 `ResponseBodyAdvice`
+
+## Spring MVC 其他组件 
+
+@ControllerAdvice
