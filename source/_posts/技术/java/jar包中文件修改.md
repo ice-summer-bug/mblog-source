@@ -1,8 +1,8 @@
 ---
 layout: post
 title: 如何修改jar包中文件
-categories: jar
-tags: [jar]
+categories: Java
+tags: [Java, jar]
 date: 2019-03-01 21:00:00
 description: 使用jar 指令修改jar 包中的文件
 ---
