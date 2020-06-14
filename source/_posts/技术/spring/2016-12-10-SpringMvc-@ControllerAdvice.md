@@ -106,7 +106,9 @@ public @interface ControllerAdvice {
 ```
 
 我们可以看到 `@ControllerAdvice` 是一个 `@Component`, 它当然能被扫描
-除了 `@ExceptionHandler` 之外，还有 `@InitBinder`、`@ModelAttribute` 修饰的方法，不是很常用
+除了 `@ExceptionHandler` 之外，还有 `@InitBinder`、`@ModelAttribute` 修饰的方法
+
+通过 `@InitBinder` 可以做到绑定一个
 
 这里如果只是 这三个功能， `@ControllerAdvice` 还略显鸡肋
 
