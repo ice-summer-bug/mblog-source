@@ -284,6 +284,8 @@ public class AutowiredAnnotationBeanPostProcessor extends InstantiationAwareBean
 
 ## 循环依赖的解决流程说明
 
+介绍完了 Bean 的创建流程之后，再来看单例循环依赖的解决方案，就是嵌套多层 Bean 创建流程，在这个嵌套过程中，将实例化好的 Bean 放入三级缓存中，具体说明如下：
+
 ![Spring 循环依赖](/assets/picture/spring_bean_circular_dependencies.svg "Spring 循环依赖")
 
 在上面这个循环依赖的例子中，Bean A, B, C 的创建过程简要概括如下 
