@@ -101,7 +101,7 @@ public enum State {
 -  TERMINATED
     线程达到终态，正常执行结束，或者执行过程中遇到了异常而结束了
 
-***除了上述状态之外，线程还有个状态，就是 `RUNNING(运行中)`***
+                除了上述状态之外，线程还有个状态，就是 RUNNING(运行中)，但是 JDK 并没有提供这样一个状态，主要是因为 RUNNING 状态是个瞬时状态；JRE 很难快捷的区分出 RUNNING 和 RUNNABLE 状态
 
 ## 线程的状态是如何流转的？
 
@@ -188,3 +188,314 @@ public enum State {
 | interrupt | 将线程标记为中断 |
 | isInterrupt | 测试线程是否标记为中断的 |
 | interrupted | 将线程的中断标记清空 |
+
+##### Thread#interrupt 方法
+
+我们先看看方法上的说明文档：
+
+```txt
+Interrupts this thread.
+
+Unless the current thread is interrupting itself, which is always permitted, the checkAccess method of this
+thread is invoked, which may cause a SecurityException to be thrown.
+
+If this thread is blocked in an invocation of the wait(), wait(long), or wait(long, int) methods of the 
+Object class, or of the join(), join(long), join(long, int), sleep(long), or sleep(long, int), methods of
+this class, then its interrupt status will be cleared and it will receive an InterruptedException.
+
+If this thread is blocked in an I/O operation upon an InterruptibleChannel then the channel will be closed,
+the thread's interrupt status will be set, and the thread will receive a
+java.nio.channels.ClosedByInterruptException.
+
+If this thread is blocked in a java.nio.channels.Selector then the thread's interrupt status will be set
+and it will return immediately from the selection operation, possibly with a non-zero value, just as if 
+the selector's wakeup method were invoked.
+
+If none of the previous conditions hold then this thread's interrupt status will be set.
+
+Interrupting a thread that is not alive need not have any effect.
+------------------------------------------------------------------------------------------------------
+中断这个线程。
+
+当前线程中断自身的时候，始终被允许，否则 checkAccess 方法会被调用，可能会抛出 SecurityException 异常；   
+
+1) 当前线程在被调动 Thread#sleep、Thread#join 或者 Object#wait 方法后处于阻塞状态，此时中断这个线程的时候，
+它的中断状态会被清除，线程会接收到一个 InterruptedException；
+
+2) 如果该线程阻塞在一个操作可中断的通道 InterruptibleChannel 的 I/O 操作上，这个通道将被关闭，该线程的中断
+状态也会被标记，该线程也会接收到一个 java.nio.channels.ClosedByInterruptException 异常；
+
+3）如果线程在 java.nio.channels.Selector 中被阻塞，线程的中断状态被标记，并且理解从选择操作中返回，可能是一个
+非 0 的数值，就像 selector 的 wakeup 方法被调用
+
+4）如果该线程不满足上述所有条件，仅标记线程的中断标识，不对线程造成其他影响
+
+5）中断一个不存在的线程，将不会产生任何效果
+```
+
+###### 中断一个正在运行的普通线程
+
+```java
+public class InterruptDemo {
+
+  public static void main(String[] args) throws InterruptedException {
+    Thread thread1 = new Thread(new RunningThread());
+    thread1.start();
+
+    TimeUnit.MILLISECONDS.sleep(10);
+    thread1.interrupt();
+    System.out.println("RunningThread.isInterrupted: " + thread1.isInterrupted());
+  }
+
+  private static class RunningThread implements Runnable {
+
+    @Override
+    public void run() {
+      while (true) {
+      }
+    }
+  }
+}
+```
+
+运行结果：
+
+                RunningThread.isInterrupted: true
+
+这里我们可以看到，主程序没有退出，线程一直在运行，只有线程的中断标识被标记了
+
+###### 中断一个处于等待状态(`TIME_WAITNG`, `WAITING`)的线程
+
+- 中断调用了 `Thread#sleep` 方法的线程
+
+```java
+
+public class InterruptDemo {
+
+  public static void main(String[] args) throws InterruptedException {
+    Thread thread2 = new Thread(new SleepingThread());
+    thread2.start();
+
+    TimeUnit.MILLISECONDS.sleep(10);
+    thread2.interrupt();
+    System.out.println("SleepingThread.isInterrupted: " + thread2.isInterrupted());
+  }
+
+  private static class SleepingThread implements Runnable {
+
+    @Override
+    public void run() {
+      while (true) {
+        try {
+          TimeUnit.SECONDS.sleep(30);
+        } catch (InterruptedException e) {
+          System.out.println("do sth for InterruptedException...");
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+}
+```
+
+运行结果
+
+                SleepingThread.isInterrupted: false
+                do sth for InterruptedException...
+                java.lang.InterruptedException: sleep interrupted
+                    at java.lang.Thread.sleep(Native Method)
+                    at java.lang.Thread.sleep(Thread.java:340)
+                    at java.util.concurrent.TimeUnit.sleep(TimeUnit.java:386)
+                    at com.liam.learn.interruptdemo.InterruptDemo$SleepingThread.run(InterruptDemo.java:40)
+                    at java.lang.Thread.run(Thread.java:748)
+
+从结果可以看出，这个一直调用 `Thread#sleep` 方法的线程调用了 `interrupt` 方法之后，接收到了 `InterruptedException` 异常，但是线程的中断标志位并没有被表示为已中断，但是我们可以在线程中捕获 `InterruptedException` 并根据这个信息作出应对操作。
+
+- 中断了调用了 `Object#wait` 方法的线程
+
+```java
+public class InterruptDemo {
+
+  public static void main(String[] args) throws InterruptedException {
+    Object lock = new Object();
+    Thread thread3 = new Thread(new WaitingThread(lock));
+    thread3.start();
+
+    TimeUnit.MILLISECONDS.sleep(10);
+    thread3.interrupt();
+    System.out.println("WaitingThread.isInterrupted: " + thread3.isInterrupted());
+
+  }
+
+
+  private static class WaitingThread implements Runnable {
+
+    private Object lock;
+
+    public WaitingThread(Object lock) {
+      this.lock = lock;
+    }
+
+    @Override
+    public void run() {
+      synchronized (lock) {
+        try {
+          lock.wait();
+        } catch (InterruptedException e) {
+          System.out.println("do sth for InterruptedException...");
+          e.printStackTrace();
+        }
+      }
+    }
+  }
+
+}
+```
+
+运行结果是：
+
+                do sth for InterruptedException...
+                WaitingThread.isInterrupted: false
+                java.lang.InterruptedException
+                    at java.lang.Object.wait(Native Method)
+                    at java.lang.Object.wait(Object.java:502)
+                    at com.liam.learn.interruptdemo.InterruptDemo$WaitingThread.run(InterruptDemo.java:70)
+                    at java.lang.Thread.run(Thread.java:748)
+
+                Process finished with exit code 0
+
+
+- 中断调用了 `Thread#join` 方法的线程
+
+```java
+public class InterruptDemo {
+
+  public static void main(String[] args) throws InterruptedException {
+    Thread thread4 = new Thread(new JoiningThread());
+    thread4.start();
+    TimeUnit.MILLISECONDS.sleep(10);
+    thread4.interrupt();
+    System.out.println("JoiningThread.isInterrupted: " + thread4.isInterrupted());
+
+  }
+
+  private static class JoiningThread implements Runnable {
+
+    @Override
+    public void run() {
+      try {
+        Thread.currentThread().join();
+      } catch (InterruptedException e) {
+        System.out.println("do sth for InterruptedException...");
+        e.printStackTrace();
+      }
+    }
+  }
+
+}
+```
+
+运行结果是
+
+                do sth for InterruptedException...
+                JoiningThread.isInterrupted: false
+                java.lang.InterruptedException
+                    at java.lang.Object.wait(Native Method)
+                    at java.lang.Thread.join(Thread.java:1252)
+                    at java.lang.Thread.join(Thread.java:1326)
+                    at com.liam.learn.interruptdemo.InterruptDemo$JoiningThread.run(InterruptDemo.java:91)
+                    at java.lang.Thread.run(Thread.java:748)
+
+调用 `Object#wait`、`Thread#join` 方法的线程和调用了 `Thread#sleep` 方法的线程被调用了 `interrupt` 方法的结果是一样的，都不会被标记为中断，都会接收到 `InterruptedException`
+
+##### 中断机制的实现
+
+`Thread#interrupt` 方法的实现如下，通过调用一个 native 方法去修改线程的中断标识，将线程标记位中断。
+
+```java
+    public void interrupt() {
+        if (this != Thread.currentThread())
+            checkAccess();
+
+        synchronized (blockerLock) {
+            Interruptible b = blocker;
+            if (b != null) {
+                interrupt0();           // Just to set the interrupt flag
+                b.interrupt(this);
+                return;
+            }
+        }
+        interrupt0();
+    }
+
+    private native void interrupt0();
+```
+
+而 `interrupt0` 的实现我们可以在 [openjdk](https://github.com/openjdk/jdk "OpenJDK") 源码中找到
+
+首先是 `Thread.c` 中定义了 native 方法
+```c
+static JNINativeMethod methods[] = {
+    {"start0",           "()V",        (void *)&JVM_StartThread},
+    {"stop0",            "(" OBJ ")V", (void *)&JVM_StopThread},
+    {"isAlive",          "()Z",        (void *)&JVM_IsThreadAlive},
+    {"suspend0",         "()V",        (void *)&JVM_SuspendThread},
+    {"resume0",          "()V",        (void *)&JVM_ResumeThread},
+    {"setPriority0",     "(I)V",       (void *)&JVM_SetThreadPriority},
+    {"yield",            "()V",        (void *)&JVM_Yield},
+    {"sleep",            "(J)V",       (void *)&JVM_Sleep},
+    {"currentThread",    "()" THD,     (void *)&JVM_CurrentThread},
+    {"interrupt0",       "()V",        (void *)&JVM_Interrupt},
+    {"holdsLock",        "(" OBJ ")Z", (void *)&JVM_HoldsLock},
+    {"getThreads",        "()[" THD,   (void *)&JVM_GetAllThreads},
+    {"dumpThreads",      "([" THD ")[[" STE, (void *)&JVM_DumpThreads},
+    {"setNativeName",    "(" STR ")V", (void *)&JVM_SetNativeThreadName},
+};
+```
+
+而 `JVM_Interrupt` 方法的是实现是在 `jvm.cpp` 中
+
+```cpp
+JVM_ENTRY(void, JVM_Interrupt(JNIEnv* env, jobject jthread))
+  JVMWrapper("JVM_Interrupt");
+
+  ThreadsListHandle tlh(thread);
+  JavaThread* receiver = NULL;
+  bool is_alive = tlh.cv_internal_thread_to_JavaThread(jthread, &receiver, NULL);
+  if (is_alive) {
+    // jthread refers to a live JavaThread.
+    receiver->interrupt();
+  }
+JVM_END
+```
+
+而 `JavaThread::interrupt` 的实现是 
+
+```cpp
+// interrupt support
+void JavaThread::interrupt() {
+  debug_only(check_for_dangling_thread_pointer(this);)
+
+  // For Windows _interrupt_event
+  osthread()->set_interrupted(true);
+
+  // For Thread.sleep
+  _SleepEvent->unpark();
+
+  // For JSR166 LockSupport.park
+  parker()->unpark();
+
+  // For ObjectMonitor and JvmtiRawMonitor
+  _ParkEvent->unpark();
+}
+```
+
+这里 JVM 将线程的中断标识标记为中断
+
+## 关于线程状态的一些常见文件
+
+1. `sleep` 和 `wait` 方法的区别是什么？
+
+        Thread#sleep 只会让线程进入休眠状态，但是不会放弃已经获得的内置锁；
+        而 Object#wait 方法不仅会让线程进入等待状态，还会让线程释放内置锁
+

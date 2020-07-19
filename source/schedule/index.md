@@ -13,7 +13,12 @@ date: 2019-07-29 00:49:23
     - java concurrent 包工具类说明
     - sychronized 关键字和锁
 
-# 2020-07 
+# 2020-07
+- Spring MVC 的参数校验
+    - 如何校验 @ModelAttribute
+    - 如何校验 @RequestParam 和 @PathVariable
+
+# Todo...
 - Redis 的数据结构及数据类型
 - Redis 数据库功能实现说明
 - Redis 的哨兵模式和集群模式
