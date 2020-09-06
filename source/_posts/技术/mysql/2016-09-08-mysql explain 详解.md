@@ -11,46 +11,43 @@ description: mysql explain 指令说明
 
 在日常使用 mysql 的过程中，我们需要查看表结构设计，或者查看sql 执行计划；mysql 提供了一个指令 ———— `explain`，它有以下功能：
 
-                1. 查看表结构信息
-                2. 查看sql 执行计划信息 
-                3. mysql 8.18 版本以上，还支持 [explain analyze]
+        1. 查看表结构信息
+        2. 查看sql 执行计划信息 
+        3. mysql 8.18 版本以上，还支持 [explain analyze]
 
-
-###### 注意：<br/> 1. 在 `mysql 5.6` 之前 `explain` 只能分析 `select` 语句，其他类型的语句只能先改写为 `select` 语句再分析； 但是 `mysql 5.6` 及以后， `explain` 支持其他语句的解析 <br/> 2. `explain` 指令还有一个同名的指令 `describe`
-
-
+***注意：<br/> 1. 在 `mysql 5.6` 之前 `explain` 只能分析 `select` 语句，其他类型的语句只能先改写为 `select` 语句再分析； 但是 `mysql 5.6` 及以后， `explain` 支持其他语句的解析 <br/> 2. `explain` 指令还有一个同名的指令 `describe`。***
 
 ### `explain` 查看表结构
 
 `explain` 和 `describe` 都能查看表结构信息，实例如下
 
-                mysql> explain TABLES;
-                +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
-                | Field           | Type                                                               | Null | Key | Default | Extra |
-                +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
-                | TABLE_CATALOG   | varchar(64)                                                        | YES  |     | NULL    |       |
-                | TABLE_SCHEMA    | varchar(64)                                                        | YES  |     | NULL    |       |
-                | TABLE_NAME      | varchar(64)                                                        | YES  |     | NULL    |       |
-                | TABLE_TYPE      | enum('BASE TABLE','VIEW','SYSTEM VIEW')                            | NO   |     | NULL    |       |
-                | ENGINE          | varchar(64)                                                        | YES  |     | NULL    |       |
-                | VERSION         | int(2)                                                             | YES  |     | NULL    |       |
-                | ROW_FORMAT      | enum('Fixed','Dynamic','Compressed','Redundant','Compact','Paged') | YES  |     | NULL    |       |
-                | TABLE_ROWS      | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | AVG_ROW_LENGTH  | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | DATA_LENGTH     | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | MAX_DATA_LENGTH | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | INDEX_LENGTH    | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | DATA_FREE       | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | AUTO_INCREMENT  | bigint(21) unsigned                                                | YES  |     | NULL    |       |
-                | CREATE_TIME     | timestamp                                                          | NO   |     | NULL    |       |
-                | UPDATE_TIME     | datetime                                                           | YES  |     | NULL    |       |
-                | CHECK_TIME      | datetime                                                           | YES  |     | NULL    |       |
-                | TABLE_COLLATION | varchar(64)                                                        | YES  |     | NULL    |       |
-                | CHECKSUM        | bigint(21)                                                         | YES  |     | NULL    |       |
-                | CREATE_OPTIONS  | varchar(256)                                                       | YES  |     | NULL    |       |
-                | TABLE_COMMENT   | text                                                               | YES  |     | NULL    |       |
-                +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
-                21 rows in set (0.00 sec)
+        mysql> explain TABLES;
+        +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+        | Field           | Type                                                               | Null | Key | Default | Extra |
+        +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+        | TABLE_CATALOG   | varchar(64)                                                        | YES  |     | NULL    |       |
+        | TABLE_SCHEMA    | varchar(64)                                                        | YES  |     | NULL    |       |
+        | TABLE_NAME      | varchar(64)                                                        | YES  |     | NULL    |       |
+        | TABLE_TYPE      | enum('BASE TABLE','VIEW','SYSTEM VIEW')                            | NO   |     | NULL    |       |
+        | ENGINE          | varchar(64)                                                        | YES  |     | NULL    |       |
+        | VERSION         | int(2)                                                             | YES  |     | NULL    |       |
+        | ROW_FORMAT      | enum('Fixed','Dynamic','Compressed','Redundant','Compact','Paged') | YES  |     | NULL    |       |
+        | TABLE_ROWS      | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | AVG_ROW_LENGTH  | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | DATA_LENGTH     | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | MAX_DATA_LENGTH | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | INDEX_LENGTH    | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | DATA_FREE       | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | AUTO_INCREMENT  | bigint(21) unsigned                                                | YES  |     | NULL    |       |
+        | CREATE_TIME     | timestamp                                                          | NO   |     | NULL    |       |
+        | UPDATE_TIME     | datetime                                                           | YES  |     | NULL    |       |
+        | CHECK_TIME      | datetime                                                           | YES  |     | NULL    |       |
+        | TABLE_COLLATION | varchar(64)                                                        | YES  |     | NULL    |       |
+        | CHECKSUM        | bigint(21)                                                         | YES  |     | NULL    |       |
+        | CREATE_OPTIONS  | varchar(256)                                                       | YES  |     | NULL    |       |
+        | TABLE_COMMENT   | text                                                               | YES  |     | NULL    |       |
+        +-----------------+--------------------------------------------------------------------+------+-----+---------+-------+
+        21 rows in set (0.00 sec)
 
 
 `explain table_name` 指令可以说是 `show columns from table_name` 指令的缩写，可以查看表结构中的所有的列信息；
@@ -61,15 +58,13 @@ description: mysql explain 指令说明
 `show table status [{in | from} db_name] [like 'pattern' | where expr]`: 查看数据库中的数据表概要信息，具体见[文档](https://dev.mysql.com/doc/refman/8.0/en/show-table-status.html "show table status")
 `show index [{in | from} table_name]`: 查看表结构中的索引信息，具体见[文档](https://dev.mysql.com/doc/refman/8.0/en/show-index.html "show index")
 
-
 ### `explain` 查看执行计划情况
 
 先来个使用范例
 
-    exlain select sql
+    explain select sql
     如：
     explain select * from grade_info where teacher_id = '1';
-
 
 下面看看 `explain` 的执行结果：
 ![图片](/assets/picture/mysql_index_a.png "使用索引第一列的情况")
@@ -284,27 +279,27 @@ oe [NOT] IN (SELECT ie ...)
 4. <union M,N> id 为M，N 的表的连接查询结果
 5. <subquery N> 物化子查询 N 的引用
 
-    mysql> explain select e.id from Employee e join (select id from Employee union select id from Employee2) a on e.id = a.id;
-    +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
-    | id | select_type  | table      | partitions | type  | possible_keys | key         | key_len | ref       | rows | filtered | Extra           |
-    +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
-    |  1 | PRIMARY      | e          | NULL       | index | PRIMARY       | PRIMARY     | 4       | NULL      |    6 |   100.00 | Using index     |
-    |  1 | PRIMARY      | <derived2> | NULL       | ref   | <auto_key0>   | <auto_key0> | 4       | test.e.Id |    2 |   100.00 | Using index     |
-    |  2 | DERIVED      | Employee   | NULL       | index | NULL          | PRIMARY     | 4       | NULL      |    6 |   100.00 | Using index     |
-    |  3 | UNION        | Employee2  | NULL       | ALL   | NULL          | NULL        | NULL    | NULL      |    7 |   100.00 | NULL            |
-    | NULL | UNION RESULT | <union2,3> | NULL       | ALL   | NULL          | NULL        | NULL    | NULL      | NULL |     NULL | Using temporary |
-    +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
-    5 rows in set, 1 warning (0.00 sec)
+        mysql> explain select e.id from Employee e join (select id from Employee union select id from Employee2) a on e.id = a.id;
+        +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
+        | id | select_type  | table      | partitions | type  | possible_keys | key         | key_len | ref       | rows | filtered | Extra           |
+        +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
+        |  1 | PRIMARY      | e          | NULL       | index | PRIMARY       | PRIMARY     | 4       | NULL      |    6 |   100.00 | Using index     |
+        |  1 | PRIMARY      | <derived2> | NULL       | ref   | <auto_key0>   | <auto_key0> | 4       | test.e.Id |    2 |   100.00 | Using index     |
+        |  2 | DERIVED      | Employee   | NULL       | index | NULL          | PRIMARY     | 4       | NULL      |    6 |   100.00 | Using index     |
+        |  3 | UNION        | Employee2  | NULL       | ALL   | NULL          | NULL        | NULL    | NULL      |    7 |   100.00 | NULL            |
+        | NULL | UNION RESULT | <union2,3> | NULL       | ALL   | NULL          | NULL        | NULL    | NULL      | NULL |     NULL | Using temporary |
+        +----+--------------+------------+------------+-------+---------------+-------------+---------+-----------+------+----------+-----------------+
+        5 rows in set, 1 warning (0.00 sec)
 
-    mysql> explain select * from Employee e1 where e1.id = any (select e2.id from Employee2 e2 where e2.Salary = e1.Salary);
-    +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
-    | id | select_type  | table       | partitions | type   | possible_keys | key        | key_len | ref                       | rows | filtered | Extra       |
-    +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
-    |  1 | SIMPLE       | e1          | NULL       | ALL    | PRIMARY       | NULL       | NULL    | NULL                      |    6 |   100.00 | Using where |
-    |  1 | SIMPLE       | <subquery2> | NULL       | eq_ref | <auto_key>    | <auto_key> | 12      | test.e1.Id,test.e1.Salary |    1 |   100.00 | NULL        |
-    |  2 | MATERIALIZED | e2          | NULL       | ALL    | NULL          | NULL       | NULL    | NULL                      |    7 |   100.00 | NULL        |
-    +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
-    3 rows in set, 2 warnings (0.00 sec)
+        mysql> explain select * from Employee e1 where e1.id = any (select e2.id from Employee2 e2 where e2.Salary = e1.Salary);
+        +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
+        | id | select_type  | table       | partitions | type   | possible_keys | key        | key_len | ref                       | rows | filtered | Extra       |
+        +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
+        |  1 | SIMPLE       | e1          | NULL       | ALL    | PRIMARY       | NULL       | NULL    | NULL                      |    6 |   100.00 | Using where |
+        |  1 | SIMPLE       | <subquery2> | NULL       | eq_ref | <auto_key>    | <auto_key> | 12      | test.e1.Id,test.e1.Salary |    1 |   100.00 | NULL        |
+        |  2 | MATERIALIZED | e2          | NULL       | ALL    | NULL          | NULL       | NULL    | NULL                      |    7 |   100.00 | NULL        |
+        +----+--------------+-------------+------------+--------+---------------+------------+---------+---------------------------+------+----------+-------------+
+        3 rows in set, 2 warnings (0.00 sec)
 
 #### `partition` 分区信息（暂不介绍）
 
@@ -534,6 +529,24 @@ value IN (SELECT key_column FROM single_table WHERE some_expr)
 
 对于 `InnoDB`, 这个行数是个估计值，可能不是实际值
 
-#### `filtered`: 过滤行数
+#### `filtered`: 被条件过滤的行数的百分比
 
-todo
+`filtered` 列预估了被表查询条件过滤的行的百分比，最大值是 100，意味着没有对表数据进行过滤;
+`rows` 行预估了被读取的行数， `rows x filtered` 计算的结果是与后续表进行连接的行数，例如 `rows` 为 1000，`filtered` 是 50（代表着 50%）的时候，与后续表进行连接的行数就是 1000 x 50% = 500。
+
+#### `Extra`: sql 被解析执行的附加信息
+
+附加信息的可能取值有很多，具体有
+
+##### Using index
+仅仅使用索引树中的信息检索表中的列信息，而不用进行其他搜索去读取实际数据行；这个策略在查询的列是单个索引的部分列的时候会被使用
+
+##### Using filesort
+不是字面意义上的通过文件进行排序，而是表示无法使用索引进行排序，实际上是使用 `快排`；这里不一定会产生临时文件存放在磁盘中，这取决于临时文件的大小以及数据库的参数，例如 `sort_buffer_size` 等
+
+##### Using where
+使用 where 从句来限制哪些行会和下一张表进行匹配查询或者直接返回给客户端。
+
+
+
+A WHERE clause is used to restrict which rows to match against the next table or send to the client. Unless you specifically intend to fetch or examine all rows from the table, you may have something wrong in your query if the Extra value is not Using where and the table join type is ALL or index.

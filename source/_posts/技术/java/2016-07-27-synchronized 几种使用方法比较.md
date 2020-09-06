@@ -15,7 +15,7 @@ description: java 并发基础，synchronized 关键字使用说明
 
 下面讨论几个问题
 
-#### 1. synchronized 关键字修饰 非静态方法， 锁定的是对象实例还是类？
+### synchronized 关键字修饰 非静态方法， 锁定的是对象实例还是类？
 
 ```java
 public synchronized void syncInnerReferenceLock1() {
@@ -135,7 +135,7 @@ public static void main(String[] args) {
 这里可以看到，连个线程是并行执行的，没有丝毫互斥的现象，从而论证了上面的猜测！
 
 
-#### 2.  `synchronized` 关键字修饰 `静态方法`， 锁定的是对象实例还是类？
+### `synchronized` 关键字修饰 `静态方法`， 锁定的是对象实例还是类？
 看了第一个问题，我们能不能说， `synchronized` 关键字修饰 `静态方法`， 锁定的是类呢？ 让我们看看
 
 ```java
@@ -202,7 +202,7 @@ public static void main(String[] args) {
 
 可以从结果中看出，两个线程是串行执行，存在明显的互斥，`synchronized` 关键字修饰 `静态方法`， 锁定的确实是类
 
-#### 3. synchronized(reference) {} 和 synchronized(Clazz.class) {}
+### synchronized(reference) {} 和 synchronized(Clazz.class) {}
 synchorinizable 修饰类和对象的区别是什么呢？
 
 在我看来， synchorinizable 修饰类和对象，可以抽象为 `类锁` 和 `对象锁`
