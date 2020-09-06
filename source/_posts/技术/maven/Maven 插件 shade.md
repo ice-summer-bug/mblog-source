@@ -4,7 +4,7 @@ title: Maven 中的 maven-shade-plugin 插件
 categories: Maven
 tags: Maven
 date: 2020-07-12 21:00:00
-description: 你知道 maven-shade-plugin 有什么作用吗？应该在什么场景使用呢？为什么 kylin-jdbc 要用 maven-shade-plugin ？？
+description: 你知道 maven-shade-plugin 有什么作用吗？应该在什么场景使用呢？
 ---
 
 # Maven 中的 maven-shade-plugin 插件
@@ -500,6 +500,8 @@ public class MockShader
 ![](/assets/picture/shade.plugin.keep.dependencies.with.provided.scope.jpg "Shade 插件保留依赖项，设置为 provided 作用域")
 
 ### \<minimizeJar\>
+
+***注意：使用此特性需要 `JDK1.5` 或更高版本***
 
 - 参数说明：是否自动精简依赖项中的文件，当前项目中没有使用的类文件被自动删除，不会被加入 `fat-jar`
 - 参数类型：boolean
