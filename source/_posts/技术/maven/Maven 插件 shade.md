@@ -508,6 +508,25 @@ public class MockShader
 - 是否必填：否
 - 默认值：false 
 
+### \<outputDirectory\>
+
+- 参数说明：结合 `<finalName>` 参数可以设置 shade 插件修改后的jar 包的路径，`<finalName>` 设置jar 包名称，`<outputDirectory>` 指定 jar 包所在的目录
+- 参数类型：java.io.File
+- 是否必填：否
+
+### \<outputFile\>
+
+- 参数说明：设置shade 插件修改后的jar 包的绝对路径；这个参数被设置之后 `finalName`、`shadedArtifactAttached`、`shadedClassifierName` 和 `createDependencyReducedPom` 参数将被忽略
+- 参数类型：java.io.File
+- 是否必填：否
+
+
+### \<promoteTransitiveDependencies\>
+
+- 参数说明：当前参数设置为 `true` 时，被删除的依赖的传递依赖会被提升为直接依赖
+- 参数类型：boolean
+- 是否必填：否
+
 ***未完待续***
 
 ## maven-shade-plugin 的使用场景是什么？ 

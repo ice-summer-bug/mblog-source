@@ -9,7 +9,7 @@ description: Spring Boot 入门
 
 #### 使用 `Maven` 构建 Spring-Boot 项目
 
-1. 继承 父pmo 构建 Spring-Boot 项目
+1. 继承父 pom 构建 Spring-Boot 项目
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>

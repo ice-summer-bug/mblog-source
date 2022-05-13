@@ -344,7 +344,7 @@ abstract class Striped64 extends Number {
 | await(long timeout, TimeUnit unit) throws InterruptedException | boolean, 锁存器减为0 时返回 true，如果超过指定时间计数值没有减为0 返回 false | 阻塞当前线程进入等待状态，直至锁存器的计数值达到零，除非线程被中断或者超过了指定的等待时间 | 
 | getCount() | long | 返回锁存器的计数值 | 
 
-从上面的方法列表可以看出，`CountDownLatch(锁存器)` 维护了一个计数值，可以让当前线程阻塞等待，直到计数值减为 0，这个数值也就是需要等待的线程的数量；通过这个同步工具类可以做到让一个或一组线程等待其他线程完成之后在进行在进行下一步的操作
+从上面的方法列表可以看出，`CountDownLatch(锁存器)` 维护了一个计数值，可以让当前线程阻塞等待，直到计数值减为 0，这个数值也就是需要等待的线程的数量；通过这个同步工具类可以做到让一个或一组线程等待其他线程完成之后再进行下一步的操作
 
 ```java
 public class CountDownLatchDemo {
@@ -448,9 +448,145 @@ public class CountDownLatchDemo {
 
 结果很遗憾，一个线程抛出异常之后，主线程陷入了阻塞等待的状态，没办法继续执行后续操作~ 因为 `CountDownLatch(锁存器)` 的计数值始终不能减为 0，`CountDownLatch#await()` 方法一直处于一个阻塞状态；
 
-## CyclicBarrier
+    CountDownLatch 的不足：
+    CountDownLatch 维护的计数值被减少后无法恢复，只能使用一次
+
+## CyclicBarrier（回环栅栏）
+
+还是从工具类开始看什么是 `CyclicBarrier(回环栅栏)`
+
+```text
+A synchronization aid that allows a set of threads to all wait for each other to reach a common barrier point. 
+CyclicBarriers are useful in programs involving a fixed sized party of threads that must occasionally wait for each other. 
+The barrier is called `cyclic` because it can be re-used after the waiting threads are released.
+```
+
+译文如下：
+
+```text
+CyclicBarrier 也是一个并发工具，目的在于让一组固定数量的线程相互等待，直到所有线程都到达一个栅栏点；
+栅栏之所以称为回环栅栏是因为等所有等待的线程都被释放之后，栅栏的状态将被重置
+```
+
+下面看看方法列表
+
+| 方法签名 | 返回值 | 方法说明 |
+|-|-|-|
+| CyclicBarrier(int parties, Runnable barrierAction) | CyclicBarrier | 构造方法，构造一个回环栅栏，并指定参与线程数量和栅栏函数，当等待跳过栅栏的线程数降为0 的时候，会触发栅栏函数的执行 |
+| CyclicBarrier(int parties) | CyclicBarrier | 构造方法，构造一个回环栅栏，并指定参与线程数量，等待跳过栅栏的线程数降为0 的时候，进行后续操作 |
+| countDown() | void | 对锁存器的计数值进行递减，线程安全，如果计数值减到了 0 则释放所有等待的线程 | 
+| await() throws InterruptedException | void | 阻塞当前线程进入等待状态，直至回环栅栏的所有参与线程都调用了此方法，或者参与栅栏的线程被阻断抛出异常 | 
+| await(long timeout, TimeUnit unit) throws InterruptedException | void | 阻塞当前线程进入等待状态，直至回环栅栏的所有参与线程都调用了此方法，或者参与栅栏的线程被阻断抛出异常，或者超过了指定的等待时间 | 
+| getNumberWaiting() | int | 获取当前正在等待跳过栅栏的参与方的数量 | 
+| getParties() | int | 获取需要跳过栅栏的参与方的数量 |
+| reset() | void | 将栅栏置为初始化状态 |
+
+下面从代码示例中，我们来看看 `CyclicBarrier` 的使用场景
+
+```java
+public class CyclicBarrierDemo {
+    public static void main(String[] args) throws BrokenBarrierException, InterruptedException {
+        int threadCount = 3;
+        CyclicBarrier cyclicBarrier = new CyclicBarrier(threadCount + 1, () -> System.out.println("所有线程都到达了等待点，可以进行下一步操作了~"));
+
+        for (int i = 0; i < threadCount; i++) {
+            new Thread(new WaitedTask("first-group-thread-" + i, cyclicBarrier)).start();
+        }
+        cyclicBarrier.await();
+        System.out.println("主线程等待第一组其他线程操作结束，执行下一步操作");
+        ThreadLocalRandom threadLocalRandom = ThreadLocalRandom.current();
+        int randomVal = threadLocalRandom.nextInt(10);
+        TimeUnit.SECONDS.sleep(randomVal);
+
+        for (int i = 0; i < threadCount; i++) {
+            new Thread(new WaitedTask("second-group-thread-" + i, cyclicBarrier)).start();
+        }
+        cyclicBarrier.await();
+        System.out.println("主线程等待第二组其他线程操作结束，执行下一步操作");
+        randomVal = threadLocalRandom.nextInt(10);
+        TimeUnit.SECONDS.sleep(randomVal);
+    }
+
+
+    private static class WaitedTask implements Runnable {
+
+        private String name;
+        private CyclicBarrier cyclicBarrier;
+
+        WaitedTask(String name, CyclicBarrier cyclicBarrier) {
+            this.name = name;
+            this.cyclicBarrier = cyclicBarrier;
+        }
+
+        @Override
+        public void run() {
+            try {
+                System.out.println("线程 " + name + " 开始执行操作");
+                int timeVal = ThreadLocalRandom.current().nextInt(5);
+                TimeUnit.SECONDS.sleep(timeVal);
+                System.out.println("线程 " + name + " 操作完成, 达到等待点");
+                cyclicBarrier.await();
+                timeVal = ThreadLocalRandom.current().nextInt(5);
+                System.out.println("线程 " + name + " 等待其他线程结束，执行其他操作~");
+                TimeUnit.SECONDS.sleep(timeVal);
+                System.out.println("线程 " + name + " 执行其他操作完毕");
+            } catch (InterruptedException | BrokenBarrierException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+        线程 first-group-thread-0 开始执行操作
+        线程 first-group-thread-2 开始执行操作
+        线程 first-group-thread-1 开始执行操作
+        线程 first-group-thread-2 操作完成, 达到等待点
+        线程 first-group-thread-1 操作完成, 达到等待点
+        线程 first-group-thread-0 操作完成, 达到等待点
+        所有线程都到达了等待点，可以进行下一步操作了~
+        线程 first-group-thread-0 等待其他线程结束，执行其他操作~
+        主线程等待第一组其他线程操作结束，执行下一步操作
+        线程 first-group-thread-2 等待其他线程结束，执行其他操作~
+        线程 first-group-thread-1 等待其他线程结束，执行其他操作~
+        线程 first-group-thread-1 执行其他操作完毕
+        线程 first-group-thread-0 执行其他操作完毕
+        线程 first-group-thread-2 执行其他操作完毕
+        线程 second-group-thread-0 开始执行操作
+        线程 second-group-thread-0 操作完成, 达到等待点
+        线程 second-group-thread-1 开始执行操作
+        线程 second-group-thread-2 开始执行操作
+        线程 second-group-thread-1 操作完成, 达到等待点
+        线程 second-group-thread-2 操作完成, 达到等待点
+        所有线程都到达了等待点，可以进行下一步操作了~
+        线程 second-group-thread-2 等待其他线程结束，执行其他操作~
+        主线程等待第二组其他线程操作结束，执行下一步操作
+        线程 second-group-thread-0 等待其他线程结束，执行其他操作~
+        线程 second-group-thread-1 等待其他线程结束，执行其他操作~
+        线程 second-group-thread-1 执行其他操作完毕
+        线程 second-group-thread-2 执行其他操作完毕
+        线程 second-group-thread-0 执行其他操作完毕
+
+        Process finished with exit code 0
+
+从上面这个例子可以看出，`CyclicBarrier` 的实例被使用了两次，都达到了让一组线程达到一个栅栏点之后再进行后续操作的目的；这里还有一个细节，在 `CyclicBarrier` 中，我们设置了 `barrierAction`，这个线程会在最后一个参与线程调用 `await()` 方法到达栅栏点之后会被触发调用，而我们创建的 `CyclicBarrier` 指定的参与线程数量是子线程数量加一，主线程也会去等待其他子线程达到栅栏点；所以如果主线程需要等待其他子线程到达栅栏点，我们可以将主线程也作为 `CyclicBarrier` 的参与线程，如果主线程不需要等待子线程达到栅栏点，可以使用 `barrierAction` 在所有子线程达到栅栏点之后进行一些操作。
+
+## Semaphore 信号量
+
+`Semaphore` 工具类见名知意，就是一个维护了一组信号量的工具类，它提供了 `acquire()` 方法，用于获取许可，在获取到许可之前会一致阻塞；它还提供了 `release()` 方法去释放已经获取了的许可；这些许可也只是一个计数而不是实际存在的许可对象；`Semaphore` 工具类一般用于控制一组线程对一定数量的资源的访问控制；
+
+下面是方法列表
+
+| 方法签名 | 返回值 | 方法说明 |
+|-|-|-|
+| Semaphore(int permits) | Semaphore | 构造方法，构造一个信号量工具类，permits 是许可数量，可以为负数，为负数是在获取许可之前必须先释放许可 |
+| Semaphore(int permits, boolean fair) | Semaphore | 构造方法，构造一个信号量工具类；<br/>permits 是许可数量，可以为负数，为负数是在获取许可之前必须先释放许可<br/>fair 标识获取许可的任务是先进先出的公平模式，还是非公平模式 |
+| acquire() throws InterruptedException | void | 获取单个信号量许可的方法，没有获取到之前一直阻塞，如果线程被中断，将抛出 java.lang.InterruptedException 异常 |
+| acquire(int permits) throws InterruptedException | void | 获取信号量的一个或多个许可的方法，没有获取到之前一直阻塞，如果线程被中断，将抛出 java.lang.InterruptedException 异常 |
 
 ## CompletionService
+
+在上面讲到的并发工具类的使用的时候，我们讲到了使用 `CountDownLatch`、`CyclicBarrier`、`Semaphore` 来实现等待一组任务全完成之后的示例
 
 ## ThreadLocalRandom
 
